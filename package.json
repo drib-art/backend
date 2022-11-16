@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backed for drib art",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "env-cmd nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drib-art/backend.git"
+  },
+  "author": "drib",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drib-art/backend/issues"
+  },
+  "homepage": "https://github.com/drib-art/backend#readme",
+  "dependencies": {
+    "cyclic-dynamodb": "^0.0.27",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.19"
+  }
+}
