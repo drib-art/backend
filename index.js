@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true}));
 
 // All the API routes
 app.get("/", (req, res)=>{
-  res.send("Wrong address, my friend");
+  res.sendStatus(403);
 });
 
 app.post("/login", (req, res)=>{
