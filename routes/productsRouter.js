@@ -1,10 +1,11 @@
 import { Router } from "express";
+import { prisma } from "../database/prisma";
 
 export const router = Router();
 
-
-
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+  const products = await prisma.products.findMany();
+  console.log(products);
   res.send("Here are all your products");
 });
 

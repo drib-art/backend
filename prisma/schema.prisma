@@ -14,28 +14,28 @@ datasource db {
 
 model Products {
   id         Int          @id @default(autoincrement())
-  name       String       
+  name       String
   slug       String
   janma      DateTime     @default(now())
   price      Int
   stock      Int          @default(1)
-  desc       String @db.Text
+  desc       String       @db.Text
   thumb      String
   image      String
   lovedBy    Int          @default(0)
   collection Collections? @relation(fields: [collectionsId], references: [id])
 
-  collectionsId Int
+  collectionsId Int?
 
   @@index([collectionsId, name])
 }
 
 model Collections {
   id       Int        @id @default(autoincrement())
-  name     String     
+  name     String
   slug     String
   janma    DateTime   @default(now())
-  desc     String @db.Text
+  desc     String     @db.Text
   products Products[]
 
   @@index([name])
