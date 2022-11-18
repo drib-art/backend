@@ -1,6 +1,8 @@
 import express from "express";
 
+// route defns
 import { router as productsRouter } from "./routes/productsRouter.js";
+import { router as collectionsRouter } from "./routes/collectionsRouter.js";
 
 const app = express();
 app.use(express.json());
@@ -24,6 +26,7 @@ app.post("/login", (req, res)=>{
 });
 
 app.use("/products", productsRouter);
+app.use("/collections", collectionsRouter);
 
 
 const port = process.env.PORT || 3000;
