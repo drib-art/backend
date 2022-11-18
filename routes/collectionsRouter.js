@@ -2,18 +2,17 @@ import { Router } from "express";
 
 export const router = Router();
 
-
 // The routes defn
 
 router.get("/", (req, res) => {
-  res.send("Here are all your products");
+  res.send("Here are all your collections");
 });
 
 router.post("/", (req, res) => {
-  const productData = req.body;
+  const collectionData = req.body;
 });
 
 router.get("/:id", (req, res) => {
-  const productId = req.params.id;
-  res.send(`The product ${productId}`);
+  const collectionId = req.params.id;
+  res.send(`The product ${collectionId}`);
 });

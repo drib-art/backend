@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/drib-art/backend#readme",
   "dependencies": {
-    "cyclic-dynamodb": "^0.0.27",
     "express": "^4.18.2",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
