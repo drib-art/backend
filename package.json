@@ -18,14 +18,12 @@
   },
   "homepage": "https://github.com/drib-art/backend#readme",
   "dependencies": {
-    "@prisma/client": "^4.6.1",
     "cyclic-dynamodb": "^0.0.27",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
-    "nodemon": "^2.0.19",
-    "prisma": "^4.6.1"
+    "nodemon": "^2.0.19"
   }
 }
