@@ -10,7 +10,7 @@ app.use(express.static("public"));
 
 // All the API routes
 app.get("/", (req, res) => {
-  res.sendStatus(403);
+  res.sendStatus(403).end();
 });
 
 app.post("/login", (req, res) => {

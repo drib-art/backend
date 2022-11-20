@@ -1,20 +1,29 @@
 import { Router } from "express";
+import { toDatabase } from "../middlewares/dbHandler.js";
+import { createProduct, getAllProducts, getSingleProduct } from "../database/products.js";
 
-import { getAllProducts } from "../database/config.js";
+
 export const router = Router();
 
 // The routes defn
 
 router.get("/", async (req, res) => {
-  const productsData = await getAllProducts();
-  res.send(productsData);
+  const dbResponse = await toDatabase(getAllProducts);
+  if (!dbResponse) { return res.sendStatus(404).end(); }
+  res.send(dbResponse);
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const productData = req.body;
+  const dbResponse = await toDatabase(createProduct, productData);
+  if (!dbResponse) { return res.sendStatus(404).end(); }
+  res.send(dbResponse);
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   const productId = req.params.id;
-  res.send(`The product ${productId}`);
+  const dbResponse = await toDatabase(getSingleProduct, productId);
+  if (!dbResponse) { return res.sendStatus(404).end(); }
+  res.send(dbResponse);
 });
+
