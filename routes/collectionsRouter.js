@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { toDatabase } from "../middlewares/dbHandler.js";
+
 
 export const router = Router();
 
