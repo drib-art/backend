@@ -15,11 +15,10 @@ const ping = async () => {
     const conn = await pool.getConnection();
     conn.release();
   } catch (error) {
-    console.log(error);
-    await pool.end();
+    console.log(error); //TODO: remove in Production
+    await pool.end(); //FIXME: tis' good, dunno?
   }
 };
 await ping();
 
 export const db = pool;
-

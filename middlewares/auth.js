@@ -15,7 +15,7 @@ export function authenticateUser (req, res, next){
   const bearerToken = authHeader && authHeader.split(' ')[1];
 
   if(!bearerToken){
-      return res.sendStatus(401);
+    return res.sendStatus(401);
   }
 
   // now verify the bearer token

@@ -1,45 +1,81 @@
 import { Router } from "express";
-import { toDatabase } from "../middlewares/dbHandler.js";
-import { createProduct, deleteProduct, getAllProducts, getSingleProduct, updateProduct } from "../database/products.js";
-
+import { db } from "../database/config.js";
+import { setPatchQuery } from "../database/operations.js";
 
 export const router = Router();
 
-// The routes defn
 
 router.get("/", async (req, res) => {
-  const dbResponse = await toDatabase(getAllProducts);
-  if (!dbResponse) { return res.sendStatus(404).end(); }
-  res.send(dbResponse);
+  try {
+    const [data, meta] = await db.execute("SELECT * from Products");
+    res.send(JSON.stringify(data));
+  } catch (error) {
+    console.log(error);// TODO: remove in production
+    await db.end(); // FIXME: tis' better dunno??
+    res.status(404).end();
+  }
+
 });
+
 
 router.post("/", async (req, res) => {
   const productData = req.body;
-  const dbResponse = await toDatabase(createProduct, productData);
-  if (!dbResponse) { return res.sendStatus(404).end(); }
-  res.send(dbResponse);
+  const sqlQuery = "INSERT INTO Products (name, slug, price, stock, description, thumb, image, lovedBy, collectionsId) VALUES (?,?,?,?,?,?,?,?,?)"
+
+  try {
+    const [data, meta] = await db.execute(sqlQuery, [productData.name, productData.slug, productData.price, productData.stock, productData.description, productData.thumb, productData.image, productData.lovedBy, productData.collectionsId]);
+    res.send(JSON.stringify({ id: data.insertId }));
+
+  } catch (error) {
+    console.log(error);// TODO: remove in production
+    await db.end(); // FIXME: tis' better dunno??
+    res.status(404).end();
+  }
+
 });
+
 
 router.get("/:id", async (req, res) => {
   const productId = req.params.id;
-  const dbResponse = await toDatabase(getSingleProduct, productId);
-  if (!dbResponse) { return res.sendStatus(404).end(); }
-  res.send(dbResponse);
+  const sqlQuery = "SELECT * from Products WHERE id=?";
+
+  try {
+    const [[data], meta1] = await db.execute(sqlQuery, [productId]);
+    res.send(JSON.stringify(data));
+  } catch (error) {
+    console.log(error);// TODO: remove in production
+    await db.end(); // FIXME: tis' better dunno??
+    res.status(404).end();
+  }
+
 });
 
-router.put("/:id", async (req, res) => {
-  const productData = req.body;
-  const dbResponse = await toDatabase(updateProduct, productData);
-  if (!dbResponse) { return res.sendStatus(404).end(); }
-  res.sendStatus(200);
-});
 
 router.delete("/:id", async (req, res) => {
   const productId = req.params.id;
-  const dbResponse = await toDatabase(deleteProduct, productId);
-  if (!dbResponse) { return res.sendStatus(404).end(); }
-  res.sendStatus(200);
+
+  try {
+    await db.execute("DELETE from Products WHERE id = ?", [productId]);
+    res.status(200).end();
+  } catch (error) {
+    console.log(error);// TODO: remove in production
+    await db.end(); // FIXME: tis' better dunno??
+    res.status(404).end();
+  }
 });
 
 
-// TODO: still need to define patach routes -- need special care as to how to write this efficiently
+router.patch("/:id", async (req, res) => {
+  const productId = req.params.id;
+  const patchData = req.body;
+
+  try {
+    await db.execute("UPDATE Products SET " + setPatchQuery(patchData) + " WHERE id = ?", [productId]);
+    res.status(200).end();
+  } catch (error) {
+    console.log(error);// TODO: remove in production
+    await db.end(); // FIXME: tis' better dunno??
+    res.status(404).end();
+  }
+
+});
