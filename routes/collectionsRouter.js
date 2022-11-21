@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { db } from "../database/config.js";
 import { setPatchQuery } from "../database/operations.js";
+import { authenticateUser } from "../middlewares/auth.js";
 
 export const router = Router();
 
@@ -18,7 +19,7 @@ router.get("/", async (req, res) => {
 });
 
 
-router.post("/", async (req, res) => {
+router.post("/", authenticateUser, async (req, res) => {
   const collectionData = req.body;
   const sqlQuery = "INSERT INTO Collections (name, slug, description) VALUES (?,?,?)"
 
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticateUser, async (req, res) => {
   const collectionId = req.params.id;
 
   try {
@@ -67,7 +68,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", authenticateUser, async (req, res) => {
   const collectionId = req.params.id;
   const patchData = req.body;
 
